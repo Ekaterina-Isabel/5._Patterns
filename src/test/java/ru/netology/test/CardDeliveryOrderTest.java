@@ -11,9 +11,9 @@ import ru.netology.data.DeliveryInfo;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.withText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 class CardDeliveryOrderTest {
 
@@ -32,14 +32,19 @@ class CardDeliveryOrderTest {
     void shouldSuccessfullyBookTheDeliveryOfTheCard() {
         CardDeliveryInfo cardDeliveryInfo = DataGenerator.generateInfo("ru", 4);
         DeliveryInfo.fillDeliveryInfo(cardDeliveryInfo);
+        $x("//*[text()=\"Запланировать\"]").click();
 
         $(withText("Успешно!"));
         //проверка на наличие текста на странице
         $(".notification__content").shouldHave(Condition.text("Встреча успешно запланирована на " + cardDeliveryInfo.getDate()));
 
-        //$(".notification__content").shouldHave(Condition.text("Необходимо подтверждение"));
-        //$x("//*[text()=\"Перепланировать\"]").click();
-        //$(withText("Успешно!"));
-        //$(".notification__content").shouldHave(Condition.text("Встреча успешно запланирована на " + cardDeliveryInfo.getDate()));
+        String newDate = DataGenerator.generateDate(5);
+        DeliveryInfo.changeDate(newDate);
+        $x("//*[text()=\"Запланировать\"]").click();
+
+        $x("//*[text()=\"У вас уже запланирована встреча на другую дату. Перепланировать?\"]").click();
+        $(withText("Успешно!")).should(visible);
+        ;
+        $(".notification__content").shouldHave(Condition.text("Встреча успешно запланирована на " + newDate));
     }
 }

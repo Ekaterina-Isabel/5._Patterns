@@ -3,7 +3,6 @@ package ru.netology.data;
 import org.openqa.selenium.Keys;
 
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
 
 public class DeliveryInfo {
 
@@ -15,6 +14,10 @@ public class DeliveryInfo {
         $("[data-test-id=name] input").setValue(cardDeliveryInfo.getName());
         $("[data-test-id=phone] input").setValue(cardDeliveryInfo.getPhone());
         $("[data-test-id=agreement]").click();
-        $x("//*[text()=\"Запланировать\"]").click();
+    }
+
+    public static void changeDate(String newDate) {
+        $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE);
+        $("[data-test-id=date] input").setValue(newDate);
     }
 }

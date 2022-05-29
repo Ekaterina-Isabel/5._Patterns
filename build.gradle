@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.netology'
+version '1.0-SNAPSHOT'
+
+// кодировка файлов (если используете русский язык в файлах)
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.projectlombok:lombok:1.18.20'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation 'com.codeborne:selenide:5.19.0'
+    implementation 'com.github.javafaker:javafaker:1.0.2'       //подключение faker
+
+    compileOnly 'org.projectlombok:lombok-maven-plugin:1.18.20.0'
+
+
+    //compileOnly 'org.projectlombok:1.18.20'
+    //annotationProcessor "org.projectlombok:1.18.20"
+
+    //testCompileOnly 'org.projectlombok:1.18.20'
+    //testAnnotationProcessor('org.projectlombok:1.18.20')
+
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok-maven-plugin
+    compileOnly 'org.projectlombok:lombok-maven-plugin:1.18.20.0'
+
+}
+
+test {
+    useJUnitPlatform()
+    // в тестах, вызывая `gradlew test -Dselenide.headless=true` будем передавать этот параметр в JVM (где его подтянет Selenide)
+    systemProperty 'selenide.headless', System.getProperty('selenide.headless')
+}

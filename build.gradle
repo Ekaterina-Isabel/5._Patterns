@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.9.6'       //плагин для интеграции Allure с проектом
 }
 
 group 'ru.netology'
@@ -8,6 +9,14 @@ version '1.0-SNAPSHOT'
 // кодировка файлов (если используете русский язык в файлах)
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
+
+//секция для настройки allure
+allure {
+    version = '2.16.1'
+    useJUnit5 {
+        version = '2.16.1'
+    }
+}
 
 repositories {
     mavenCentral()
@@ -19,15 +28,10 @@ dependencies {
     testImplementation 'com.codeborne:selenide:5.19.0'
     implementation 'com.github.javafaker:javafaker:1.0.2'       //подключение faker
 
-//    implementation 'org.projectlombok:lombok:1.18.20'
-//    compileOnly 'org.projectlombok:lombok-maven-plugin:1.18.20.0'
-//    compileOnly 'org.projectlombok:lombok-maven-plugin:1.18.20.0'
-
+    testImplementation 'io.qameta.allure:allure-selenide:2.16.1'
+    // зависимость для подключения интеграции с Selenide
 
     compileOnly 'org.projectlombok:1.18.20'
-    //annotationProcessor "org.projectlombok:1.18.20"
-    //testCompileOnly 'org.projectlombok:1.18.20'
-    //testAnnotationProcessor('org.projectlombok:1.18.20')
 
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
@@ -37,7 +41,6 @@ dependencies {
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
     testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.36'
-
 }
 
 test {
